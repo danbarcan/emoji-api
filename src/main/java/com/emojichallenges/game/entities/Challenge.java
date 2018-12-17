@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Emoji {
+public class Challenge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +22,16 @@ public class Emoji {
     @NotBlank
     private String name;
 
-    @ManyToMany(mappedBy = "emojis")
-    private List<Challenge> challenges;
+    @NotBlank
+    private String solution;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "emoji_challenge",
+            joinColumns = @JoinColumn(name = "challenge_id"),
+            inverseJoinColumns = @JoinColumn(name = "emoji_id")
+    )
+    private List<Emoji> emojis;
 }
