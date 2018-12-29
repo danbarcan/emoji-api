@@ -22,11 +22,14 @@ import java.util.stream.Stream;
 
 @RestController
 public class EmojiController {
-    @Autowired
-    EmojiRepository emojiRepository;
+    private EmojiRepository emojiRepository;
+    private ChallengeRepository challengeRepository;
 
     @Autowired
-    ChallengeRepository challengeRepository;
+    public EmojiController(final EmojiRepository emojiRepository, final ChallengeRepository challengeRepository) {
+        this.challengeRepository = challengeRepository;
+        this.emojiRepository = emojiRepository;
+    }
 
     @GetMapping("/emoji")
     public ResponseEntity<Emoji> getEmojiById(@RequestParam Long id) {
@@ -37,7 +40,7 @@ public class EmojiController {
 
     @GetMapping("/emojiByName")
     public ResponseEntity<Emoji> getEmojiByName(@RequestParam String name) {
-        Optional<Emoji> emoji = emojiRepository.findByName(name);
+        Optional<Emoji> emoji = emojiRepository.findByNameIgnoreCase(name);
 
         return ResponseEntity.of(emoji);
     }
@@ -51,7 +54,7 @@ public class EmojiController {
 
     @PostMapping("/emoji")
     public ResponseEntity<ApiResponse> saveEmoji(@Valid @RequestBody EmojiPayload emojiPayload) {
-        if (emojiRepository.existsByName(emojiPayload.getName())) {
+        if (emojiRepository.existsByNameIgnoreCase(emojiPayload.getName())) {
             return new ResponseEntity(new ApiResponse(false, "Emoji name already exists!"),
                     HttpStatus.BAD_REQUEST);
         }

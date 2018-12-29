@@ -10,9 +10,9 @@ import java.util.Optional;
 @Repository
 public interface EmojiRepository extends JpaRepository<Emoji, Long> {
 
-    Boolean existsByName(String name);
+    Boolean existsByNameIgnoreCase(String name);
 
-    Optional<Emoji> findByName(String name);
+    Optional<Emoji> findByNameIgnoreCase(String name);
 
     List<Emoji> findAllByChallenges(Long challengeId);
 

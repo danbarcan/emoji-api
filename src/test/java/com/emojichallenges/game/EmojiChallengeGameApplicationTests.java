@@ -11,6 +11,7 @@ public class EmojiChallengeGameApplicationTests {
 
     @Test
     public void contextLoads() {
+        assert true;
     }
 
 }

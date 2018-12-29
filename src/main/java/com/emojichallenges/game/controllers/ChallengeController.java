@@ -16,11 +16,15 @@ import java.util.Optional;
 
 @RestController
 public class ChallengeController {
-    @Autowired
-    EmojiRepository emojiRepository;
+
+    private EmojiRepository emojiRepository;
+    private ChallengeRepository challengeRepository;
 
     @Autowired
-    ChallengeRepository challengeRepository;
+    public ChallengeController(final EmojiRepository emojiRepository, final ChallengeRepository challengeRepository) {
+        this.challengeRepository = challengeRepository;
+        this.emojiRepository = emojiRepository;
+    }
 
     @GetMapping("/challenge")
     public ResponseEntity<Challenge> getChallenge(@RequestParam Long id) {

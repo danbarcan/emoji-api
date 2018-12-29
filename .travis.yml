@@ -1,0 +1,22 @@
+language: java
+notifications:
+  slack: emoji-challenges:Frna88xCWIwZuaey9CfC4Qm4
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: 7b7631a8-a6b4-4f37-b1cc-f02428be5a61
+  app:
+    api-emoji
+
+before_install:
+  - chmod +x mvnw
+
+addons:
+  sonarcloud:
+    organization: "danbarcan-github" # the key of the org you chose at step #3
+    token:
+      secure: d3fb8528cca94e23db9afded86bd83aa854df622 # encrypted value of your token
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
